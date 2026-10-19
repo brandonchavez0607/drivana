@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabase'
 
 type Car = {
   id: string
+  user_id: string
   marca: string
   modelo: string
   anio: number
@@ -49,6 +50,10 @@ export default function Autos() {
               <h2 className="text-xl font-semibold">{a.marca} {a.modelo}</h2>
               <p className="text-neutral-400">{a.anio} · {a.ciudad}</p>
               <p className="mt-2 text-lg font-bold">${a.precio.toLocaleString()}</p>
+            <Link href={`/chat/${a.id}/${a.user_id}`}
+               className="inline-block mt-3 px-3 py-1 rounded bg-blue-600 text-white text-sm">
+                Contactar vendedor
+                </Link>
             </div>
           </div>
         ))}

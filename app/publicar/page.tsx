@@ -50,6 +50,7 @@ export default function Publicar() {
       ciudad: form.ciudad,
       descripcion: form.descripcion,
       imagen_url,
+      user_id: user.id,
     })
     if (error) return setMensaje(error.message)
     router.push('/autos')
