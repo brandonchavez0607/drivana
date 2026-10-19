@@ -1,10 +1,13 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { User } from '@supabase/supabase-js'
 import { supabase } from '../../lib/supabase'
 
 export default function Publicar() {
   const router = useRouter()
+  const [user, setUser] = useState<User | null>(null)
+  const [archivo, setArchivo] = useState<File | null>(null)
   const [mensaje, setMensaje] = useState('')
   const [form, setForm] = useState({
     marca: '', modelo: '', anio: '', precio: '',
@@ -14,6 +17,7 @@ export default function Publicar() {
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) router.push('/login')
+      else setUser(data.user)
     })
   }, [router])
 
@@ -23,6 +27,20 @@ export default function Publicar() {
 
   async function publicar(e: React.FormEvent) {
     e.preventDefault()
+    if (!user) return
+    setMensaje('Publicando...')
+
+    let imagen_url: string | null = null
+    if (archivo) {
+      const ext = archivo.name.split('.').pop()
+      const ruta = `${user.id}/${Date.now()}.${ext}`
+      const { error: errSubida } = await supabase.storage
+        .from('autos')
+        .upload(ruta, archivo)
+      if (errSubida) return setMensaje(errSubida.message)
+      imagen_url = supabase.storage.from('autos').getPublicUrl(ruta).data.publicUrl
+    }
+
     const { error } = await supabase.from('cars').insert({
       marca: form.marca,
       modelo: form.modelo,
@@ -31,6 +49,7 @@ export default function Publicar() {
       kilometraje: form.kilometraje ? Number(form.kilometraje) : null,
       ciudad: form.ciudad,
       descripcion: form.descripcion,
+      imagen_url,
     })
     if (error) return setMensaje(error.message)
     router.push('/autos')
@@ -49,6 +68,8 @@ export default function Publicar() {
         <input name="kilometraje" type="number" placeholder="Kilometraje" onChange={cambiar} className={input} />
         <input name="ciudad" placeholder="Ciudad" onChange={cambiar} className={input} />
         <textarea name="descripcion" placeholder="Descripción" rows={3} onChange={cambiar} className={input} />
+        <input type="file" accept="image/*"
+          onChange={(e) => setArchivo(e.target.files?.[0] ?? null)} />
         <button className="p-2 rounded bg-blue-600 text-white">Publicar</button>
         {mensaje && <p className="text-sm">{mensaje}</p>}
       </form>

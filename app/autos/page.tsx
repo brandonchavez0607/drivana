@@ -10,6 +10,7 @@ type Car = {
   anio: number
   precio: number
   ciudad: string | null
+  imagen_url: string | null
 }
 
 export default function Autos() {
@@ -34,10 +35,21 @@ export default function Autos() {
       {autos.length === 0 && <p>Aún no hay autos publicados.</p>}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {autos.map((a) => (
-          <div key={a.id} className="p-4 rounded-lg border border-neutral-700">
-            <h2 className="text-xl font-semibold">{a.marca} {a.modelo}</h2>
-            <p className="text-neutral-400">{a.anio} · {a.ciudad}</p>
-            <p className="mt-2 text-lg font-bold">${a.precio.toLocaleString()}</p>
+          <div key={a.id} className="rounded-lg border border-neutral-700 overflow-hidden">
+            {a.imagen_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={a.imagen_url} alt={`${a.marca} ${a.modelo}`}
+                className="w-full h-48 object-cover" />
+            ) : (
+              <div className="w-full h-48 bg-neutral-800 flex items-center justify-center text-neutral-500">
+                Sin foto
+              </div>
+            )}
+            <div className="p-4">
+              <h2 className="text-xl font-semibold">{a.marca} {a.modelo}</h2>
+              <p className="text-neutral-400">{a.anio} · {a.ciudad}</p>
+              <p className="mt-2 text-lg font-bold">${a.precio.toLocaleString()}</p>
+            </div>
           </div>
         ))}
       </div>
