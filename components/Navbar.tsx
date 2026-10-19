@@ -26,7 +26,6 @@ export default function Navbar() {
     <nav className="flex items-center justify-between px-6 py-4 bg-neutral-900 text-white">
       <Link href="/" className="text-xl font-bold">Drivana</Link>
       <div className="flex items-center gap-6 text-sm">
-        <Link href="/">Inicio</Link>
         <Link href="/autos">Autos</Link>
         {user ? (
           <>
