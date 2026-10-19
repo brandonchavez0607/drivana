@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '../../../../lib/supabase'
 
@@ -12,7 +12,7 @@ type Msg = {
   created_at: string
 }
 
-export default function Chat() {
+function Chat() {
   const { carId, otroId } = useParams<{ carId: string; otroId: string }>()
   const router = useRouter()
   const [yo, setYo] = useState<string | null>(null)
@@ -103,5 +103,12 @@ export default function Chat() {
         <button className="px-4 rounded bg-blue-600 text-white">Enviar</button>
       </form>
     </main>
+  )
+}
+export default function Page() {
+  return (
+    <Suspense fallback={<main className="p-10">Cargando chat...</main>}>
+      <Chat />
+    </Suspense>
   )
 }

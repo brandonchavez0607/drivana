@@ -60,7 +60,7 @@ export default function MisAutos() {
             <div className="p-4">
               <h2 className="text-xl font-semibold">{a.marca} {a.modelo}</h2>
               <p className="text-neutral-400">{a.anio}</p>
-              <p className="mt-2 text-lg font-bold">${a.precio.toLocaleString()}</p>
+              <p className="mt-2 text-lg font-bold text-violet-400">${a.precio_dia.toLocaleString()}</p>
               <button onClick={() => borrar(a.id)}
                 className="mt-3 px-3 py-1 rounded bg-red-600 text-white text-sm">
                 Eliminar

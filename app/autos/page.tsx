@@ -49,11 +49,14 @@ export default function Autos() {
             <div className="p-4">
               <h2 className="text-xl font-semibold">{a.marca} {a.modelo}</h2>
               <p className="text-neutral-400">{a.anio} · {a.ciudad}</p>
-              <p className="mt-2 text-lg font-bold">${a.precio_dia.toLocaleString()}<span className="text-sm font-normal text-neutral-400">/día</span></p >
-            <Link href={`/chat/${a.id}/${a.user_id}`}
-               className="inline-block mt-3 px-3 py-1 rounded bg-blue-600 text-white text-sm">
-                Rentar / Contactar
-                </Link>
+              <p className="mt-2 text-lg font-bold text-violet-400">
+              ${a.precio_dia.toLocaleString()}
+              <span className="text-sm font-normal text-neutral-400"> / día</span>
+              </p>
+            <Link href={`/autos/${a.id}`}
+              className="inline-block mt-3 px-3 py-1 rounded bg-violet-600 text-white text-sm">
+             Rentar
+            </Link>
             </div>
           </div>
         ))}
