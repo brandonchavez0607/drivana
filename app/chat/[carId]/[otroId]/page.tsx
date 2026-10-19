@@ -22,16 +22,19 @@ function Chat() {
   const fondo = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let activo = true
     let canal: ReturnType<typeof supabase.channel> | null = null
 
     async function iniciar() {
       const { data } = await supabase.auth.getUser()
+      if (!activo) return
       if (!data.user) return router.push('/login')
       const id = data.user.id
       setYo(id)
 
       const { data: auto } = await supabase
         .from('cars').select('marca, modelo').eq('id', carId).single()
+      if (!activo) return
       if (auto) setTitulo(`${auto.marca} ${auto.modelo}`)
 
       const { data: msgs } = await supabase
@@ -39,10 +42,11 @@ function Chat() {
         .eq('car_id', carId)
         .or(`and(sender_id.eq.${id},receiver_id.eq.${otroId}),and(sender_id.eq.${otroId},receiver_id.eq.${id})`)
         .order('created_at', { ascending: true })
+      if (!activo) return
       setMensajes((msgs ?? []) as Msg[])
 
       canal = supabase
-        .channel(`chat-${carId}-${id}-${otroId}`)
+        .channel(`chat-${carId}-${id}-${otroId}-${Math.random().toString(36).slice(2)}`)
         .on('postgres_changes',
           { event: 'INSERT', schema: 'public', table: 'messages', filter: `car_id=eq.${carId}` },
           (payload) => {
@@ -57,7 +61,10 @@ function Chat() {
     }
 
     iniciar()
-    return () => { if (canal) supabase.removeChannel(canal) }
+    return () => {
+      activo = false
+      if (canal) supabase.removeChannel(canal)
+    }
   }, [carId, otroId, router])
 
   useEffect(() => {
@@ -79,7 +86,7 @@ function Chat() {
   }
 
   if (yo && yo === otroId) {
-    return <main className="p-10">Este es tu propio auto. Espera a que un comprador te escriba desde el menú Chat.</main>
+    return <main className="p-10">Este es tu propio auto. Espera a que un cliente te escriba desde el menú Chat.</main>
   }
 
   return (
@@ -90,7 +97,7 @@ function Chat() {
         {mensajes.map((m) => (
           <div key={m.id}
             className={`max-w-[75%] px-3 py-2 rounded-lg ${
-              m.sender_id === yo ? 'self-end bg-blue-600 text-white' : 'self-start bg-neutral-700 text-white'
+              m.sender_id === yo ? 'self-end bg-violet-600 text-white' : 'self-start bg-neutral-700 text-white'
             }`}>
             {m.content}
           </div>
@@ -99,12 +106,14 @@ function Chat() {
       </div>
       <form onSubmit={enviar} className="flex gap-2 mt-4">
         <input value={texto} onChange={(e) => setTexto(e.target.value)}
-          placeholder="Escribe un mensaje..." className="flex-1 p-2 rounded bg-white text-black" />
-        <button className="px-4 rounded bg-blue-600 text-white">Enviar</button>
+          placeholder="Escribe un mensaje..."
+          className="flex-1 p-2 rounded bg-zinc-950 text-white border border-neutral-700" />
+        <button className="px-4 rounded bg-violet-600 text-white">Enviar</button>
       </form>
     </main>
   )
 }
+
 export default function Page() {
   return (
     <Suspense fallback={<main className="p-10">Cargando chat...</main>}>

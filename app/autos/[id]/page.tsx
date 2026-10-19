@@ -22,6 +22,9 @@ type Car = {
 }
 type Rango = { fecha_inicio: string; fecha_fin: string }
 
+const PORCENTAJE_DEPOSITO = 0.2
+const METODOS = ['Tarjeta', 'Transferencia bancaria', 'Efectivo al recoger el auto']
+
 function DetalleAuto() {
   const { id } = useParams<{ id: string }>()
   const [car, setCar] = useState<Car | null>(null)
@@ -32,6 +35,8 @@ function DetalleAuto() {
   const [foto, setFoto] = useState(0)
   const [paso, setPaso] = useState<'elegir' | 'pago' | 'listo'>('elegir')
   const [rentaId, setRentaId] = useState<string | null>(null)
+  const [metodo, setMetodo] = useState(METODOS[0])
+  const [referencia, setReferencia] = useState('')
   const [mensaje, setMensaje] = useState('')
 
   useEffect(() => {
@@ -54,6 +59,8 @@ function DetalleAuto() {
       ? Math.round((new Date(fin).getTime() - new Date(inicio).getTime()) / 86400000) + 1
       : 0
   const total = dias * car.precio_dia
+  const deposito = Math.round(total * PORCENTAJE_DEPOSITO)
+  const resto = total - deposito
   const esMio = user?.id === car.user_id
 
   async function reservar() {
@@ -81,9 +88,27 @@ function DetalleAuto() {
   }
 
   async function pagar() {
-    const { error } = await supabase.from('rentas').update({ estado: 'pagada' }).eq('id', rentaId)
+    if (!rentaId) return
+    const ref = 'DRV-' + Math.random().toString(36).slice(2, 8).toUpperCase()
+    const { error } = await supabase
+      .from('rentas')
+      .update({ estado: 'confirmada', metodo_deposito: metodo, deposito, referencia: ref })
+      .eq('id', rentaId)
     if (error) return setMensaje(error.message)
+    setReferencia(ref)
     setPaso('listo')
+    setMensaje('')
+  }
+
+  async function cancelarReserva() {
+    if (!rentaId) return
+    const { error } = await supabase.from('rentas').update({ estado: 'cancelada' }).eq('id', rentaId)
+    if (error) return setMensaje(error.message)
+    setOcupadas((prev) => prev.filter((o) => !(o.fecha_inicio === inicio && o.fecha_fin === fin)))
+    setRentaId(null)
+    setInicio(null)
+    setFin(null)
+    setPaso('elegir')
     setMensaje('')
   }
 
@@ -133,7 +158,9 @@ function DetalleAuto() {
 
       <section className="flex flex-col gap-4">
         {esMio ? (
-          <p className="p-4 rounded-lg border border-neutral-800">Este es tu auto. Los clientes podrán reservarlo desde aquí.</p>
+          <p className="p-4 rounded-lg border border-neutral-800">
+            Este es tu auto. Los clientes podrán reservarlo desde aquí.
+          </p>
         ) : paso === 'elegir' ? (
           <>
             <h2 className="text-xl font-semibold">Elige tus fechas</h2>
@@ -142,7 +169,9 @@ function DetalleAuto() {
             {dias > 0 && (
               <div className="p-4 rounded-lg border border-neutral-800 bg-zinc-950">
                 <p>{inicio} → {fin}</p>
-                <p className="text-neutral-400">{dias} {dias === 1 ? 'día' : 'días'} × ${car.precio_dia.toLocaleString()}</p>
+                <p className="text-neutral-400">
+                  {dias} {dias === 1 ? 'día' : 'días'} × ${car.precio_dia.toLocaleString()}
+                </p>
                 <p className="text-xl font-bold text-violet-400">Total: ${total.toLocaleString()}</p>
               </div>
             )}
@@ -159,21 +188,50 @@ function DetalleAuto() {
           </>
         ) : paso === 'pago' ? (
           <div className="p-5 rounded-xl border border-neutral-800 bg-zinc-950 flex flex-col gap-3">
-            <h2 className="text-xl font-semibold">Pago de tu reserva</h2>
+            <h2 className="text-xl font-semibold">Depósito de tu reserva</h2>
             <p>{car.marca} {car.modelo} · {inicio} → {fin}</p>
-            <p className="text-2xl font-bold text-violet-400">${total.toLocaleString()}</p>
+
+            <div className="text-sm text-neutral-300 flex flex-col gap-1">
+              <p>Total de la renta: ${total.toLocaleString()}</p>
+              <p className="text-lg font-bold text-violet-400">
+                Depósito hoy ({PORCENTAJE_DEPOSITO * 100}%): ${deposito.toLocaleString()}
+              </p>
+              <p>Resto al recoger el auto: ${resto.toLocaleString()}</p>
+            </div>
+
+            <p className="text-sm text-neutral-400 mt-2">Método de depósito</p>
+            {METODOS.map((m) => (
+              <label key={m}
+                className={`flex items-center gap-2 p-3 rounded border cursor-pointer ${
+                  metodo === m ? 'border-violet-500 bg-violet-950' : 'border-neutral-700'
+                }`}>
+                <input type="radio" name="metodo" checked={metodo === m} onChange={() => setMetodo(m)} />
+                {m}
+              </label>
+            ))}
+
             <p className="text-xs text-neutral-500">
               Pago de demostración: no se solicitan ni se guardan datos de tarjeta.
             </p>
             <button onClick={pagar} className="p-3 rounded bg-violet-600 text-white font-semibold">
-              Pagar ahora
+              Pagar depósito
+            </button>
+            <button onClick={cancelarReserva} className="p-2 rounded border border-neutral-700 text-neutral-300">
+              Cancelar reserva
             </button>
           </div>
         ) : (
-          <div className="p-5 rounded-xl border border-violet-600 bg-zinc-950">
+          <div className="p-5 rounded-xl border border-violet-600 bg-zinc-950 flex flex-col gap-2">
             <h2 className="text-xl font-semibold text-violet-400">¡Reserva confirmada!</h2>
-            <p className="mt-2">{car.marca} {car.modelo} · {inicio} → {fin}</p>
-            <p className="text-neutral-400">Total pagado: ${total.toLocaleString()}</p>
+            <p>{car.marca} {car.modelo} · {inicio} → {fin}</p>
+            <p className="text-neutral-300">
+              Depósito: ${deposito.toLocaleString()} · {metodo}
+            </p>
+            <p className="text-neutral-300">Resto al recoger: ${resto.toLocaleString()}</p>
+            <p className="text-sm text-neutral-400">Referencia: {referencia}</p>
+            <Link href="/mis-reservas" className="mt-2 p-3 rounded bg-violet-600 text-white text-center font-semibold">
+              Ver Reservas
+            </Link>
           </div>
         )}
 
@@ -188,6 +246,7 @@ function DetalleAuto() {
     </main>
   )
 }
+
 export default function Page() {
   return (
     <Suspense fallback={<main className="p-10">Cargando...</main>}>

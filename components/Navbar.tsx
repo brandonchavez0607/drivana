@@ -31,6 +31,7 @@ export default function Navbar() {
         {user ? (
           <>
             <Link href="/mis-autos">Mis autos</Link>
+            <Link href="/mis-reservas">Reservas</Link>
             <Link href="/chat">Chat</Link>
             <span className="text-neutral-400">{user.email}</span>
             <button onClick={salir} className="px-3 py-1 rounded bg-red-600">
