@@ -50,7 +50,7 @@ export default function Login() {
       {/* Marca de agua fija, completa y centrada */}
       <span
         aria-hidden="true"
-        className="pointer-events-none select-none absolute inset-0 flex items-center justify-center text-[13vw] font-extrabold tracking-wide text-white/10"
+        className="pointer-events-none select-none absolute inset-0 flex items-center justify-center text-[22vw] font-extrabold text-white/10"
       >
         DRIVANA
       </span>
