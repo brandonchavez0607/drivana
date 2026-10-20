@@ -38,7 +38,7 @@ export default function Registro() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, rgba(139,92,246,0.35), transparent 60%)`,
+          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, 	rgba(109,40,217,0.35), transparent 60%)`,
         }}
       />
 
