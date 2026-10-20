@@ -1,54 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #6d28d9;
-  --color-brand-dark: #7c3aed;
-}
-
-html {
-  background: #000000;
+  --color-brand: #4c1d95;
+  --color-brand-light: #a78bfa;
+  --color-brand-dark: #4c1d95;
+  --color-brand-deep: #2e1065;
 }
 
 body {
   min-height: 100vh;
   color: #ffffff;
   font-family: var(--font-geist-sans), Arial, sans-serif;
-  background: transparent;
 }
 
-/* TODAS las páginas: morado abajo que se desvanece hacia arriba */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    to top,
-    #4c1d95 0%,
-    #2e1065 25%,
-    #12002b 50%,
-    #000000 75%
-  );
+/* Líneas animadas del fondo global */
+@keyframes fluir-fondo {
+  to { stroke-dashoffset: -1500; }
 }
-
-/* SOLO el inicio: morado arriba que se desvanece hacia abajo */
-body:has(.inicio)::before {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 560px;
-  background: linear-gradient(
-    to bottom,
-    #3b0764 0%,
-    #1a0533 50%,
-    #000000 100%
-  );
+.linea-fondo {
+  stroke-dasharray: 220 1280;
+  animation: fluir-fondo 8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .linea-fondo { animation: none; }
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  outline: 2px solid #6d28d9;
+  outline: 2px solid #7c3aed;
 }
 
 button {
