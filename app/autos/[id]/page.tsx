@@ -288,7 +288,7 @@ function DetalleAuto() {
                 ? `Pagar anticipo de ${dinero(anticipo)}`
                 : `Pagar total de ${dinero(total)}`}
             </button>
-            <button onClick={cancelarReserva} className="p-2 rounded border border-neutral-700 text-neutral-300">
+            <button onClick={cancelarReserva} className="p-2 rounded bg-red-600 text-white">
               Cancelar reserva
             </button>
           </div>

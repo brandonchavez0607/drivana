@@ -104,7 +104,7 @@ export default function Admin() {
         {(['usuarios', 'autos'] as const).map((v) => (
           <button key={v} onClick={() => setVista(v)}
             className={`px-4 py-2 rounded capitalize ${
-              vista === v ? 'bg-brand border border-white/20' : 'bg-neutral-800'
+              vista === v ? 'bg-brand border border-white/20' : 'bg-black text-white'
             }`}>
             {v}
           </button>

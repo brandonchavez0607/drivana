@@ -102,17 +102,17 @@ function MisReservas() {
 
       <div className="flex flex-wrap items-center gap-2 mb-6">
         <button onClick={() => setVista('cliente')}
-          className={`px-4 py-2 rounded ${vista === 'cliente' ? 'bg-brand border border-white/20 text-white' : 'bg-neutral-800'}`}>
+          className={`px-4 py-2 rounded ${vista === 'cliente' ? 'bg-brand border border-white/20 text-white' : 'bg-black text-white'}`}>
           Mis rentas
         </button>
         <button onClick={() => setVista('propietario')}
-          className={`px-4 py-2 rounded ${vista === 'propietario' ? 'bg-brand border border-white/20 text-white' : 'bg-neutral-800'}`}>
+          className={`px-4 py-2 rounded ${vista === 'propietario' ? 'bg-brand border border-white/20 text-white' : 'bg-black text-white'}`}>
           Reservas de mis autos
         </button>
 
         {borrables.length > 0 && (
           <button onClick={limpiar}
-            className="ml-auto px-4 py-2 rounded border border-red-500/60 text-red-300 hover:bg-red-950">
+            className="ml-auto px-4 py-2 rounded bg-red-800 text-white">
             Borrar canceladas y pendientes ({borrables.length})
           </button>
         )}
@@ -162,7 +162,7 @@ function MisReservas() {
                 )}
                 <div className="flex flex-wrap gap-2 mt-3">
                   <Link href={`/chat/${r.car_id}/${vista === 'cliente' ? r.owner_id : r.renter_id}`}
-                    className="px-3 py-1 rounded bg-white text-black text-sm">
+                    className="px-3 py-1 rounded bg-brand text-white text-sm">
                     {vista === 'cliente' ? 'Contactar propietario' : 'Contactar cliente'}
                   </Link>
                   {puedeCancelar && (
@@ -173,7 +173,7 @@ function MisReservas() {
                   )}
                   {puedeBorrar && (
                     <button onClick={() => borrar(r.id)}
-                      className="px-3 py-1 rounded border border-red-500/60 text-red-300 text-sm hover:bg-red-950">
+                      className="px-3 py-1 rounded bg-red-800 text-white text-sm">
                       Borrar
                     </button>
                   )}

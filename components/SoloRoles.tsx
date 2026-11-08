@@ -76,7 +76,7 @@ export default function SoloRoles({
     <main className={caja}>
       <h1 className="text-xl font-bold">Sin permiso</h1>
       <p className="text-neutral-400">Tu tipo de cuenta no puede entrar a esta página.</p>
-      <Link href="/" className="p-3 rounded bg-white text-black font-semibold">Ir al inicio</Link>
+      <Link href="/" className="p-3 rounded bg-brand text-white font-semibold">Ir al inicio</Link>
     </main>
   )
 }

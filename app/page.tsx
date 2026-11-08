@@ -17,8 +17,18 @@ const ventajas = [
 
 export default function Home() {
   return (
-    <main className="inicio min-h-screen bg-white">
-      <section className="flex flex-col items-center text-center gap-6 px-6 pt-28 pb-32 bg-gradient-to-b from-orange-400 to-white">
+    <main className="inicio relative min-h-screen">
+      {/* Fondo del inicio: naranja arriba que se desvanece a blanco (queda detrás de las líneas) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-20"
+        style={{
+          background:
+            'linear-gradient(to bottom, #fb923c 0px, #ffffff 620px) no-repeat, #ffffff',
+        }}
+      />
+
+      <section className="flex flex-col items-center text-center gap-6 px-6 pt-28 pb-32">
         <span className="text-sm uppercase tracking-widest text-neutral-900">
           Renta de autos
         </span>
