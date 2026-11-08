@@ -7,40 +7,109 @@
   --color-brand-deep: #7c2d12;
 }
 
+html,
+body {
+  background: #ffffff;
+}
+
 body {
   min-height: 100vh;
   color: #111827;
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
-/* Las superficies oscuras (tarjetas, botones) llevan texto blanco */
+/* Botones de color: letras blancas */
 @layer base {
-  :where(
-    .bg-black,
-    .bg-zinc-950,
-    .bg-neutral-900,
-    .bg-neutral-800,
-    .bg-brand,
-    .bg-brand-dark,
-    .bg-brand-deep,
-    .bg-red-600,
-    .bg-green-600,
-    .bg-yellow-600
-  ) {
+  .bg-brand,
+  .bg-brand-dark,
+  .bg-red-600,
+  .bg-green-600,
+  .bg-yellow-600 {
     color: #ffffff;
   }
 }
 
-/* Líneas animadas del fondo global */
-@keyframes fluir-fondo {
-  to { stroke-dashoffset: -1500; }
+/* ===== Tema minimalista ===== */
+
+/* Superficies que antes eran oscuras: ahora blancas */
+.bg-black,
+.bg-zinc-950,
+.bg-neutral-900,
+.bg-neutral-800 {
+  background-color: #ffffff;
 }
-.linea-fondo {
-  stroke-dasharray: 220 1280;
-  animation: fluir-fondo 8s linear infinite;
+.bg-black.text-white,
+.bg-zinc-950.text-white,
+.bg-neutral-900.text-white,
+.bg-neutral-800.text-white {
+  color: #111827;
+  border: 1px solid #d1d5db;
 }
-@media (prefers-reduced-motion: reduce) {
-  .linea-fondo { animation: none; }
+
+/* Botones blancos: con borde fino */
+.bg-white.text-black {
+  border: 1px solid #d1d5db;
+}
+
+/* Selecciones suaves en lugar de fondos oscuros */
+.bg-brand-deep {
+  background-color: #fff7ed;
+}
+.bg-brand-deep.text-white {
+  color: #7c2d12;
+}
+
+/* Burbuja del chat recibida */
+.bg-neutral-700 {
+  background-color: #f3f4f6;
+}
+.bg-neutral-700.text-white {
+  color: #111827;
+}
+
+/* Textos que estaban pensados para fondo oscuro */
+.text-neutral-200 { color: #374151; }
+.text-neutral-300 { color: #4b5563; }
+.text-neutral-400 { color: #6b7280; }
+.text-neutral-500 { color: #6b7280; }
+.text-brand-light { color: #ea580c; }
+.text-red-300,
+.text-red-400 { color: #b91c1c; }
+.text-green-400 { color: #15803d; }
+
+/* Bordes: gris muy claro */
+.border-neutral-600,
+.border-neutral-700,
+.border-neutral-800,
+.border-white\/10,
+.border-white\/15,
+.border-black\/10,
+.border-white\/20:not(.bg-brand) {
+  border-color: #e5e7eb;
+}
+
+/* Campos de texto */
+input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
+textarea,
+select {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+/* Efectos al pasar el ratón */
+.hover\:bg-neutral-800:hover,
+.hover\:bg-neutral-900:hover {
+  background-color: #f9fafb;
+}
+
+/* Días no disponibles del calendario */
+.line-through.cursor-not-allowed {
+  color: #c4c4c4;
+}
+
+/* Sin brillos que siguen al ratón */
+[style*="radial-gradient"] {
+  display: none;
 }
 
 input:focus,
@@ -49,18 +118,16 @@ select:focus {
   outline: 2px solid #ea580c;
 }
 
-/* TODOS los botones (y enlaces con fondo): de color y se opacan al seleccionar */
+/* Botones: se opacan al pasar el ratón y al presionar */
 button,
 a[class*="bg-"] {
   cursor: pointer;
   transition: opacity 0.15s;
 }
-
 button:hover:not(:disabled),
 a[class*="bg-"]:hover {
   opacity: 0.85;
 }
-
 button:active:not(:disabled),
 a[class*="bg-"]:active {
   opacity: 0.6;

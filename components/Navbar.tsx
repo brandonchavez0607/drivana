@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
-import { useRol, nombreRol } from '../lib/rol'
+import { usePerfil, nombreRol } from '../lib/rol'
 
 export default function Navbar() {
   const router = useRouter()
-  const rol = useRol()
+  const perfil = usePerfil()
+  const rol = perfil?.rol ?? null
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
@@ -28,11 +29,11 @@ export default function Navbar() {
   const esAdmin = rol === 'admin' || rol === 'superadmin'
 
   return (
-    <nav className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-black border-b border-white/10 text-white">
+    <nav className="sticky top-0 z-10 flex items-center justify-between gap-6 px-6 py-4 bg-black border-b border-white/10 text-white">
       <Link href="/" className="text-2xl font-extrabold tracking-tight hover:opacity-80 transition">
         Roda<span className="text-brand">ya</span>
       </Link>
-      <div className="flex items-center gap-6 text-sm">
+      <div className="flex items-center gap-4 text-sm whitespace-nowrap">
         <Link href="/autos">Autos</Link>
         {user ? (
           <>
@@ -40,7 +41,9 @@ export default function Navbar() {
             <Link href="/mis-reservas">Reservas</Link>
             <Link href="/chat">Chat</Link>
             {esAdmin && <Link href="/admin">Panel admin</Link>}
-            <span className="text-neutral-400">{user.email}</span>
+            <span className="text-neutral-300">
+              {perfil ? (perfil.nombre ?? user.email) : ''}
+            </span>
             {rol && (
               <span className="px-2 py-0.5 rounded bg-brand border border-white/20 text-xs">
                 {nombreRol[rol]}

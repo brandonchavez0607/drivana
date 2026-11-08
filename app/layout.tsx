@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import LineasFondo from "../components/LineasFondo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body
-        className="min-h-full flex flex-col"
-        style={{ background: "linear-gradient(to top, #fb923c 0%, #ffffff 70%) fixed, #ffffff" }}
-      >
-        <LineasFondo />
+      <body className="min-h-full flex flex-col bg-white">
         <Navbar />
         {children}
       </body>

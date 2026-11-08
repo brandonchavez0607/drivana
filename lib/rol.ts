@@ -13,8 +13,10 @@ export const nombreRol: Record<Rol, string> = {
   superadmin: 'Desarrollador',
 }
 
-export function useRol() {
-  const [rol, setRol] = useState<Rol | null>(null)
+export type PerfilBasico = { rol: Rol; nombre: string | null }
+
+export function usePerfil() {
+  const [perfil, setPerfil] = useState<PerfilBasico | null>(null)
 
   useEffect(() => {
     let activo = true
@@ -22,12 +24,20 @@ export function useRol() {
     async function cargar() {
       const { data: u } = await supabase.auth.getUser()
       if (!u.user) {
-        if (activo) setRol(null)
+        if (activo) setPerfil(null)
         return
       }
       const { data } = await supabase
-        .from('profiles').select('rol').eq('id', u.user.id).single()
-      if (activo) setRol((data?.rol as Rol) ?? 'cliente')
+        .from('profiles')
+        .select('rol, nombre_usuario')
+        .eq('id', u.user.id)
+        .single()
+      if (activo) {
+        setPerfil({
+          rol: (data?.rol as Rol) ?? 'cliente',
+          nombre: data?.nombre_usuario ?? null,
+        })
+      }
     }
 
     cargar()
@@ -38,5 +48,9 @@ export function useRol() {
     }
   }, [])
 
-  return rol
+  return perfil
+}
+
+export function useRol() {
+  return usePerfil()?.rol ?? null
 }

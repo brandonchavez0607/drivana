@@ -1,5 +1,11 @@
 import Link from 'next/link'
 
+const puntos = [
+  'Anticipo de solo el 20%',
+  'Seguro en cada renta',
+  'Chat directo con el propietario',
+]
+
 const ventajas = [
   {
     titulo: 'Publica en minutos',
@@ -17,48 +23,43 @@ const ventajas = [
 
 export default function Home() {
   return (
-    <main className="inicio relative min-h-screen">
-      {/* Fondo del inicio: naranja arriba que se desvanece a blanco (queda detrás de las líneas) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20"
-        style={{
-          background:
-            'linear-gradient(to bottom, #fb923c 0px, #ffffff 620px) no-repeat, #ffffff',
-        }}
-      />
-
-      <section className="flex flex-col items-center text-center gap-6 px-6 pt-28 pb-32">
-        <span className="text-sm uppercase tracking-widest text-neutral-900">
-          Renta de autos
-        </span>
-        <h1 className="text-5xl sm:text-6xl font-extrabold max-w-3xl">
-          Renta el auto que necesitas en Rodaya
+    <main className="bg-white">
+      <section className="flex flex-col items-center text-center gap-8 px-6 pt-24 pb-16">
+        <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-[1.05] max-w-4xl">
+          Renta autos por día,{' '}
+          <span className="text-brand">sin complicaciones.</span>
         </h1>
-        <p className="text-lg text-neutral-800 max-w-xl">
-          Renta autos de forma fácil y segura, y platica directo con el propietario.
+        <p className="text-lg sm:text-xl text-neutral-600 max-w-2xl">
+          Elige tu auto, reserva tus fechas en el calendario y platica directo con el
+          propietario.
         </p>
-        <div className="flex gap-4">
-          <Link
-            href="/autos"
-            className="px-6 py-3 rounded-lg bg-brand border border-white/20 text-white font-semibold"
-          >
+
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link href="/autos"
+            className="px-8 py-4 rounded-full bg-brand text-white font-semibold text-lg">
             Ver autos
           </Link>
-          <Link
-            href="/publicar"
-            className="px-6 py-3 rounded-lg bg-black text-white font-semibold"
-          >
+          <Link href="/publicar"
+            className="px-8 py-4 rounded-full bg-white text-neutral-900 font-semibold text-lg border border-neutral-300">
             Publicar mi auto
           </Link>
         </div>
+
+        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium text-neutral-800">
+          {puntos.map((p) => (
+            <li key={p} className="flex items-center gap-2">
+              <span className="text-brand">✓</span>
+              {p}
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3 px-6 py-16">
+      <section className="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3 px-6 pb-24">
         {ventajas.map((v) => (
-          <div key={v.titulo} className="p-6 rounded-xl border border-black/10 bg-black">
-            <h3 className="text-lg font-semibold text-brand-light mb-2">{v.titulo}</h3>
-            <p className="text-neutral-400 text-sm">{v.texto}</p>
+          <div key={v.titulo} className="p-6 rounded-2xl border border-neutral-200 bg-white">
+            <h3 className="text-lg font-semibold mb-2">{v.titulo}</h3>
+            <p className="text-neutral-600 text-sm">{v.texto}</p>
           </div>
         ))}
       </section>

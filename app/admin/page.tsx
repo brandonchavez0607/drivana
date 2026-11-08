@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { ROLES, nombreRol, type Rol } from '../../lib/rol'
 
-type Perfil = { id: string; email: string | null; rol: Rol; created_at: string }
+type Perfil = { id: string; email: string | null; nombre_usuario: string | null; rol: Rol; created_at: string }
 type Auto = {
   id: string
   user_id: string
@@ -119,8 +119,8 @@ export default function Admin() {
             <div key={p.id}
               className="flex items-center justify-between gap-4 p-4 rounded-xl border border-white/15 bg-black">
               <div className="min-w-0">
-                <p className="truncate">{p.email}</p>
-                <p className="text-sm text-neutral-400">{nombreRol[p.rol]}</p>
+                <p className="truncate">{p.nombre_usuario ?? p.email}</p>
+                <p className="text-sm text-neutral-400">{p.email} · {nombreRol[p.rol]}</p>
               </div>
               <select
                 value={p.rol}
