@@ -66,15 +66,17 @@ function DetalleAuto() {
 
   const renta = dias * car.precio_dia
   const seguro = dias > 0 ? ((car.pasajeros ?? 0) > 5 ? SEGURO_MAS_DE_5 : SEGURO_5_PASAJEROS) : 0
-  const rentaMasSeguro = renta + seguro
-  const total = rentaMasSeguro
-  const anticipo = Math.round(rentaMasSeguro * PCT_ANTICIPO)
+  const total = renta + seguro
+  const anticipo = Math.round(total * PCT_ANTICIPO)
   const aPagarHoy = modoPago === 'anticipo' ? anticipo : total
   const alRecoger = total - aPagarHoy
   const esMio = user?.id === car.user_id
 
   async function reservar() {
-    if (!car || !inicio || !fin) return
+    if (!car) return
+    if (!inicio || !fin) {
+      return setMensaje('Elige las fechas de tu renta en el calendario.')
+    }
     const { data, error } = await supabase
       .from('rentas')
       .insert({
@@ -100,7 +102,7 @@ function DetalleAuto() {
 
   async function pagar() {
     if (!rentaId) return
-    const ref = 'DRV-' + Math.random().toString(36).slice(2, 8).toUpperCase()
+    const ref = 'RDY-' + Math.random().toString(36).slice(2, 8).toUpperCase()
     const { error } = await supabase
       .from('rentas')
       .update({ estado: 'confirmada', metodo_deposito: metodo, deposito: aPagarHoy, referencia: ref })
@@ -141,17 +143,17 @@ function DetalleAuto() {
               // eslint-disable-next-line @next/next/no-img-element
               <img key={i} src={f} alt="" onClick={() => setFoto(i)}
                 className={`h-20 w-28 object-cover rounded cursor-pointer border-2 ${
-                  i === foto ? 'border-brand-deep' : 'border-transparent'
+                  i === foto ? 'border-brand' : 'border-transparent'
                 }`} />
             ))}
           </div>
         )}
 
         <h1 className="text-3xl font-bold mt-6">{car.marca} {car.modelo}</h1>
-        <p className="text-neutral-400">{car.anio} · {car.ciudad}</p>
-        <p className="text-2xl font-bold text-brand-deep mt-2">
+        <p className="text-neutral-700">{car.anio} · {car.ciudad}</p>
+        <p className="text-2xl font-bold text-brand mt-2">
           {dinero(car.precio_dia)}
-          <span className="text-sm font-normal text-neutral-400"> / día</span>
+          <span className="text-sm font-normal text-neutral-700"> / día</span>
         </p>
 
         <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
@@ -164,7 +166,7 @@ function DetalleAuto() {
             <p>{car.pasajeros ?? 'No especificado'}</p>
           </div>
         </div>
-        {car.descripcion && <p className="mt-4 text-neutral-300">{car.descripcion}</p>}
+        {car.descripcion && <p className="mt-4 text-neutral-800">{car.descripcion}</p>}
       </section>
 
       <section className="flex flex-col gap-4">
@@ -177,6 +179,7 @@ function DetalleAuto() {
             <h2 className="text-xl font-semibold">Elige tus fechas</h2>
             <Calendario ocupadas={ocupadas} inicio={inicio} fin={fin}
               onChange={(i, f) => { setInicio(i); setFin(f); setMensaje('') }} />
+
             {dias > 0 && (
               <div className="p-4 rounded-lg border border-neutral-800 bg-zinc-950 flex flex-col gap-1 text-sm">
                 <p>{inicio} → {fin}</p>
@@ -188,22 +191,28 @@ function DetalleAuto() {
                   <span>Seguro</span>
                   <span>{dinero(seguro)}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold text-brand-deep border-t border-neutral-700 pt-2 mt-1">
+                <div className="flex justify-between text-lg font-bold text-brand-light border-t border-neutral-700 pt-2 mt-1">
                   <span>Total</span>
                   <span>{dinero(total)}</span>
                 </div>
-                <p className="mt-2 p-2 rounded bg-brand-deep border border-brand-deep text-neutral-200">
+                <p className="mt-2 p-2 rounded bg-brand-deep border border-brand-dark text-neutral-200">
                   Aparta este auto con un anticipo del {PCT_ANTICIPO * 100}%: <b>{dinero(anticipo)}</b>
                 </p>
               </div>
             )}
+
             {user ? (
-              <button onClick={reservar} disabled={dias === 0}
-                className="p-3 rounded bg-brand-deep text-white font-semibold disabled:opacity-40">
+              <button
+                onClick={reservar}
+                className="p-3 rounded bg-brand text-white font-semibold hover:opacity-90 active:opacity-60 transition"
+              >
                 Reservar
               </button>
             ) : (
-              <Link href="/login" className="p-3 rounded bg-brand-deep text-white text-center font-semibold">
+              <Link
+                href="/login"
+                className="p-3 rounded bg-brand text-white text-center font-semibold hover:opacity-90 active:opacity-60 transition"
+              >
                 Inicia sesión para reservar
               </Link>
             )}
@@ -232,7 +241,7 @@ function DetalleAuto() {
               <p className="text-sm text-neutral-400">¿Cuánto quieres pagar hoy?</p>
               <label
                 className={`flex items-start gap-2 p-3 rounded border cursor-pointer ${
-                  modoPago === 'anticipo' ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
+                  modoPago === 'anticipo' ? 'border-brand bg-brand-deep' : 'border-neutral-700'
                 }`}>
                 <input type="radio" name="modo" className="mt-1"
                   checked={modoPago === 'anticipo'} onChange={() => setModoPago('anticipo')} />
@@ -246,7 +255,7 @@ function DetalleAuto() {
               </label>
               <label
                 className={`flex items-start gap-2 p-3 rounded border cursor-pointer ${
-                  modoPago === 'completo' ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
+                  modoPago === 'completo' ? 'border-brand bg-brand-deep' : 'border-neutral-700'
                 }`}>
                 <input type="radio" name="modo" className="mt-1"
                   checked={modoPago === 'completo'} onChange={() => setModoPago('completo')} />
@@ -263,7 +272,7 @@ function DetalleAuto() {
               {METODOS.map((m) => (
                 <label key={m}
                   className={`flex items-center gap-2 p-3 rounded border cursor-pointer ${
-                    metodo === m ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
+                    metodo === m ? 'border-brand bg-brand-deep' : 'border-neutral-700'
                   }`}>
                   <input type="radio" name="metodo" checked={metodo === m} onChange={() => setMetodo(m)} />
                   {m}
@@ -271,7 +280,10 @@ function DetalleAuto() {
               ))}
             </div>
 
-            <button onClick={pagar} className="p-3 rounded bg-brand-deep text-white font-semibold">
+            <button
+              onClick={pagar}
+              className="p-3 rounded bg-brand text-white font-semibold hover:opacity-90 active:opacity-60 transition"
+            >
               {modoPago === 'anticipo'
                 ? `Pagar anticipo de ${dinero(anticipo)}`
                 : `Pagar total de ${dinero(total)}`}
@@ -281,8 +293,8 @@ function DetalleAuto() {
             </button>
           </div>
         ) : (
-          <div className="p-5 rounded-xl border border-brand-deep bg-zinc-950 flex flex-col gap-2">
-            <h2 className="text-xl font-semibold text-brand-deep">¡Reserva confirmada!</h2>
+          <div className="p-5 rounded-xl border border-brand bg-zinc-950 flex flex-col gap-2">
+            <h2 className="text-xl font-semibold text-brand-light">¡Reserva confirmada!</h2>
             <p>{car.marca} {car.modelo} · {inicio} → {fin}</p>
             <p className="text-neutral-300">
               Pagado hoy: {dinero(aPagarHoy)} · {metodo}
@@ -294,19 +306,21 @@ function DetalleAuto() {
             </p>
             <p className="text-neutral-400 text-sm">Total de la reserva: {dinero(total)}</p>
             <p className="text-sm text-neutral-400">Referencia: {referencia}</p>
-            <Link href="/mis-reservas" className="mt-2 p-3 rounded bg-brand-deep text-white text-center font-semibold">
+            <Link href="/mis-reservas" className="mt-2 p-3 rounded bg-brand text-white text-center font-semibold">
               Ver mis reservas
             </Link>
           </div>
         )}
 
         {!esMio && (
-          <Link href={`/chat/${car.id}/${car.user_id}`}
-            className="p-3 rounded bg-white text-black text-center font-semibold">
+          <Link
+            href={`/chat/${car.id}/${car.user_id}`}
+            className="p-3 rounded bg-black text-white text-center font-semibold hover:opacity-90 active:opacity-60 transition"
+          >
             Contactar al propietario
           </Link>
         )}
-        {mensaje && <p className="text-sm text-red-400">{mensaje}</p>}
+        {mensaje && <p className="text-sm font-medium text-red-700">{mensaje}</p>}
       </section>
     </main>
   )
