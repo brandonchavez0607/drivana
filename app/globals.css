@@ -49,10 +49,19 @@ select:focus {
   outline: 2px solid #ea580c;
 }
 
-button {
+/* TODOS los botones (y enlaces con fondo): de color y se opacan al seleccionar */
+button,
+a[class*="bg-"] {
   cursor: pointer;
   transition: opacity 0.15s;
 }
-button:hover {
+
+button:hover:not(:disabled),
+a[class*="bg-"]:hover {
   opacity: 0.85;
+}
+
+button:active:not(:disabled),
+a[class*="bg-"]:active {
+  opacity: 0.6;
 }

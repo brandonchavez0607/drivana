@@ -126,7 +126,7 @@ export default function Admin() {
                 value={p.rol}
                 disabled={!puedeEditar(p)}
                 onChange={(e) => cambiarRol(p.id, e.target.value as Rol)}
-                className="p-2 rounded bg-zinc-950 text-white border border-neutral-700 disabled:opacity-40">
+                className="p-2 rounded bg-zinc-950 text-white border border-neutral-700 ">
                 {opciones(p).map((r) => (
                   <option key={r} value={r}>{nombreRol[r]}</option>
                 ))}
