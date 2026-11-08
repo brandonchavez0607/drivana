@@ -77,7 +77,7 @@ export default function Publicar() {
         <label className="text-sm text-neutral-400">Fotos del auto (puedes elegir varias)</label>
         <input type="file" accept="image/*" multiple
           onChange={(e) => setArchivos(Array.from(e.target.files ?? []))} />
-        <button className="p-2 rounded bg-violet-600 text-white">Publicar</button>
+        <button className="p-2 rounded bg-brand-deep text-white">Publicar</button>
         {mensaje && <p className="text-sm">{mensaje}</p>}
       </form>
     </main>

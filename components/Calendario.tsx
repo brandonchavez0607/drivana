@@ -73,9 +73,9 @@ export default function Calendario({
           const clase = deshabilitado
             ? 'text-neutral-700 line-through cursor-not-allowed'
             : extremo
-            ? 'bg-violet-600 text-white'
+            ? 'bg-brand-deep text-white'
             : enRango
-            ? 'bg-violet-900 text-white'
+            ? 'bg-brand-deep text-white'
             : 'hover:bg-neutral-800'
           return (
             <button key={i} type="button" disabled={deshabilitado}

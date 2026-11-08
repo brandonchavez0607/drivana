@@ -97,7 +97,7 @@ function Chat() {
         {mensajes.map((m) => (
           <div key={m.id}
             className={`max-w-[75%] px-3 py-2 rounded-lg ${
-              m.sender_id === yo ? 'self-end bg-violet-600 text-white' : 'self-start bg-neutral-700 text-white'
+              m.sender_id === yo ? 'self-end bg-brand-deep text-white' : 'self-start bg-neutral-700 text-white'
             }`}>
             {m.content}
           </div>
@@ -108,7 +108,7 @@ function Chat() {
         <input value={texto} onChange={(e) => setTexto(e.target.value)}
           placeholder="Escribe un mensaje..."
           className="flex-1 p-2 rounded bg-zinc-950 text-white border border-neutral-700" />
-        <button className="px-4 rounded bg-violet-600 text-white">Enviar</button>
+        <button className="px-4 rounded bg-brand-deep text-white">Enviar</button>
       </form>
     </main>
   )

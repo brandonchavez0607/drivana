@@ -38,7 +38,7 @@ export default function Registro() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, 	rgba(109,40,217,0.35), transparent 60%)`,
+          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, 	rgba(249,115,22,0.35), transparent 60%)`,
         }}
       />
 
@@ -47,16 +47,16 @@ export default function Registro() {
         aria-hidden="true"
         className="pointer-events-none select-none absolute inset-0 flex items-center justify-center text-[22vw] font-extrabold text-white/10"
       >
-        DRIVANA
+        Rodaya
       </span>
 
       <form onSubmit={registrar} className="relative z-10 flex flex-col gap-4 w-80">
-        <h1 className="text-2xl font-bold">Crear cuenta en Drivana</h1>
+        <h1 className="text-2xl font-bold">Crear cuenta en Rodaya</h1>
         <input type="email" placeholder="Correo" required value={email}
           onChange={(e) => setEmail(e.target.value)} className={input} />
         <input type="password" placeholder="Contraseña (mínimo 6)" required minLength={6}
           value={password} onChange={(e) => setPassword(e.target.value)} className={input} />
-        <button className="p-2 rounded bg-violet-600 text-white">Registrarme</button>
+        <button className="p-2 rounded bg-brand-deep text-white">Registrarme</button>
         {mensaje && <p className="text-sm">{mensaje}</p>}
         <a href="/login" className="text-sm underline">¿Ya tienes cuenta? Inicia sesión</a>
       </form>

@@ -17,15 +17,15 @@ const ventajas = [
 
 export default function Home() {
   return (
-    <main className="inicio min-h-screen bg-black">
-      <section className="flex flex-col items-center text-center gap-6 px-6 pt-28 pb-32 bg-gradient-to-b from-purple-950 to-black">
-        <span className="text-sm uppercase tracking-widest text-white">
+    <main className="inicio min-h-screen bg-white">
+      <section className="flex flex-col items-center text-center gap-6 px-6 pt-28 pb-32 bg-gradient-to-b from-orange-400 to-white">
+        <span className="text-sm uppercase tracking-widest text-neutral-900">
           Renta de autos
         </span>
         <h1 className="text-5xl sm:text-6xl font-extrabold max-w-3xl">
-          Renta el auto que necesitas en Drivana
+          Renta el auto que necesitas en Rodaya
         </h1>
-        <p className="text-lg text-neutral-400 max-w-xl">
+        <p className="text-lg text-neutral-800 max-w-xl">
           Renta autos de forma fácil y segura, y platica directo con el propietario.
         </p>
         <div className="flex gap-4">
@@ -37,7 +37,7 @@ export default function Home() {
           </Link>
           <Link
             href="/publicar"
-            className="px-6 py-3 rounded-lg bg-white text-black font-semibold"
+            className="px-6 py-3 rounded-lg bg-black text-white font-semibold"
           >
             Publicar mi auto
           </Link>
@@ -46,10 +46,7 @@ export default function Home() {
 
       <section className="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3 px-6 py-16">
         {ventajas.map((v) => (
-          <div
-            key={v.titulo}
-            className="p-6 rounded-xl border border-white/15 bg-black"
-          >
+          <div key={v.titulo} className="p-6 rounded-xl border border-black/10 bg-black">
             <h3 className="text-lg font-semibold text-brand-light mb-2">{v.titulo}</h3>
             <p className="text-neutral-400 text-sm">{v.texto}</p>
           </div>

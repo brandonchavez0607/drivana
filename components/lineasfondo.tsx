@@ -9,23 +9,23 @@ export default function LineasFondo() {
   return (
     <svg
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-70"
+      className="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-60"
       viewBox="0 0 1200 600"
       preserveAspectRatio="none"
     >
       <defs>
         <linearGradient id="lg-fondo" x1="0" x2="1">
-          <stop offset="0%" stopColor="#8b5cf6" />
-          <stop offset="100%" stopColor="#c084fc" />
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#fdba74" />
         </linearGradient>
       </defs>
       {lineas.map((d, k) => (
         <g key={k}>
-          <path d={d} fill="none" stroke="url(#lg-fondo)" strokeOpacity="0.2" strokeWidth="1.5"
+          <path d={d} fill="none" stroke="url(#lg-fondo)" strokeOpacity="0.25" strokeWidth="1.5"
             vectorEffect="non-scaling-stroke" />
           <path d={d} pathLength={1500} fill="none" stroke="url(#lg-fondo)" strokeWidth="2.5"
             vectorEffect="non-scaling-stroke" className="linea-fondo"
-            style={{ animationDelay: `${k * -2}s`, filter: 'drop-shadow(0 0 6px rgba(139,92,246,.9))' }} />
+            style={{ animationDelay: `${k * -2}s`, filter: 'drop-shadow(0 0 6px rgba(249,115,22,.6))' }} />
         </g>
       ))}
     </svg>

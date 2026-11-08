@@ -141,7 +141,7 @@ function DetalleAuto() {
               // eslint-disable-next-line @next/next/no-img-element
               <img key={i} src={f} alt="" onClick={() => setFoto(i)}
                 className={`h-20 w-28 object-cover rounded cursor-pointer border-2 ${
-                  i === foto ? 'border-violet-500' : 'border-transparent'
+                  i === foto ? 'border-brand-deep' : 'border-transparent'
                 }`} />
             ))}
           </div>
@@ -149,7 +149,7 @@ function DetalleAuto() {
 
         <h1 className="text-3xl font-bold mt-6">{car.marca} {car.modelo}</h1>
         <p className="text-neutral-400">{car.anio} · {car.ciudad}</p>
-        <p className="text-2xl font-bold text-violet-400 mt-2">
+        <p className="text-2xl font-bold text-brand-deep mt-2">
           {dinero(car.precio_dia)}
           <span className="text-sm font-normal text-neutral-400"> / día</span>
         </p>
@@ -188,22 +188,22 @@ function DetalleAuto() {
                   <span>Seguro</span>
                   <span>{dinero(seguro)}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold text-violet-400 border-t border-neutral-700 pt-2 mt-1">
+                <div className="flex justify-between text-lg font-bold text-brand-deep border-t border-neutral-700 pt-2 mt-1">
                   <span>Total</span>
                   <span>{dinero(total)}</span>
                 </div>
-                <p className="mt-2 p-2 rounded bg-violet-950 border border-violet-700 text-neutral-200">
+                <p className="mt-2 p-2 rounded bg-brand-deep border border-brand-deep text-neutral-200">
                   Aparta este auto con un anticipo del {PCT_ANTICIPO * 100}%: <b>{dinero(anticipo)}</b>
                 </p>
               </div>
             )}
             {user ? (
               <button onClick={reservar} disabled={dias === 0}
-                className="p-3 rounded bg-violet-600 text-white font-semibold disabled:opacity-40">
+                className="p-3 rounded bg-brand-deep text-white font-semibold disabled:opacity-40">
                 Reservar
               </button>
             ) : (
-              <Link href="/login" className="p-3 rounded bg-violet-600 text-white text-center font-semibold">
+              <Link href="/login" className="p-3 rounded bg-brand-deep text-white text-center font-semibold">
                 Inicia sesión para reservar
               </Link>
             )}
@@ -232,7 +232,7 @@ function DetalleAuto() {
               <p className="text-sm text-neutral-400">¿Cuánto quieres pagar hoy?</p>
               <label
                 className={`flex items-start gap-2 p-3 rounded border cursor-pointer ${
-                  modoPago === 'anticipo' ? 'border-violet-500 bg-violet-950' : 'border-neutral-700'
+                  modoPago === 'anticipo' ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
                 }`}>
                 <input type="radio" name="modo" className="mt-1"
                   checked={modoPago === 'anticipo'} onChange={() => setModoPago('anticipo')} />
@@ -246,7 +246,7 @@ function DetalleAuto() {
               </label>
               <label
                 className={`flex items-start gap-2 p-3 rounded border cursor-pointer ${
-                  modoPago === 'completo' ? 'border-violet-500 bg-violet-950' : 'border-neutral-700'
+                  modoPago === 'completo' ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
                 }`}>
                 <input type="radio" name="modo" className="mt-1"
                   checked={modoPago === 'completo'} onChange={() => setModoPago('completo')} />
@@ -263,7 +263,7 @@ function DetalleAuto() {
               {METODOS.map((m) => (
                 <label key={m}
                   className={`flex items-center gap-2 p-3 rounded border cursor-pointer ${
-                    metodo === m ? 'border-violet-500 bg-violet-950' : 'border-neutral-700'
+                    metodo === m ? 'border-brand-deep bg-brand-deep' : 'border-neutral-700'
                   }`}>
                   <input type="radio" name="metodo" checked={metodo === m} onChange={() => setMetodo(m)} />
                   {m}
@@ -271,7 +271,7 @@ function DetalleAuto() {
               ))}
             </div>
 
-            <button onClick={pagar} className="p-3 rounded bg-violet-600 text-white font-semibold">
+            <button onClick={pagar} className="p-3 rounded bg-brand-deep text-white font-semibold">
               {modoPago === 'anticipo'
                 ? `Pagar anticipo de ${dinero(anticipo)}`
                 : `Pagar total de ${dinero(total)}`}
@@ -281,8 +281,8 @@ function DetalleAuto() {
             </button>
           </div>
         ) : (
-          <div className="p-5 rounded-xl border border-violet-600 bg-zinc-950 flex flex-col gap-2">
-            <h2 className="text-xl font-semibold text-violet-400">¡Reserva confirmada!</h2>
+          <div className="p-5 rounded-xl border border-brand-deep bg-zinc-950 flex flex-col gap-2">
+            <h2 className="text-xl font-semibold text-brand-deep">¡Reserva confirmada!</h2>
             <p>{car.marca} {car.modelo} · {inicio} → {fin}</p>
             <p className="text-neutral-300">
               Pagado hoy: {dinero(aPagarHoy)} · {metodo}
@@ -294,7 +294,7 @@ function DetalleAuto() {
             </p>
             <p className="text-neutral-400 text-sm">Total de la reserva: {dinero(total)}</p>
             <p className="text-sm text-neutral-400">Referencia: {referencia}</p>
-            <Link href="/mis-reservas" className="mt-2 p-3 rounded bg-violet-600 text-white text-center font-semibold">
+            <Link href="/mis-reservas" className="mt-2 p-3 rounded bg-brand-deep text-white text-center font-semibold">
               Ver mis reservas
             </Link>
           </div>

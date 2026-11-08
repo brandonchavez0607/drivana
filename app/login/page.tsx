@@ -25,7 +25,7 @@ export default function Login() {
     router.push('/')
   }
 
-  const input = 'p-2 rounded bg-zinc-950 text-white border border-neutral-700'
+  const input = 'p-2 rounded bg-zinc-950 <text-black/10 border border-neutral-700'
 
   return (
     <main
@@ -35,7 +35,7 @@ export default function Login() {
       {/* Fondo morado fijo abajo */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-purple-950 via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-deep via-transparent to-transparent"
       />
 
       {/* Brillo morado que sigue al ratón */}
@@ -43,7 +43,7 @@ export default function Login() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, 	rgba(109,40,217,0.35), transparent 60%)`,
+          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, 	rgba(249, 115, 22, 0.35), transparent 60%)`,
         }}
       />
 
@@ -52,7 +52,7 @@ export default function Login() {
         aria-hidden="true"
         className="pointer-events-none select-none absolute inset-0 flex items-center justify-center text-[22vw] font-extrabold text-white/10"
       >
-        DRIVANA
+        Rodaya
       </span>
 
       <form onSubmit={entrar} className="relative z-10 flex flex-col gap-4 w-80">
@@ -61,7 +61,7 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)} className={input} />
         <input type="password" placeholder="Contraseña" required value={password}
           onChange={(e) => setPassword(e.target.value)} className={input} />
-        <button className="p-2 rounded bg-violet-600 text-white">Entrar</button>
+        <button className="p-2 rounded bg-brand-deep text-white">Entrar</button>
         {mensaje && <p className="text-sm text-red-400">{mensaje}</p>}
         <a href="/registro" className="text-sm underline">¿No tienes cuenta? Regístrate</a>
       </form>

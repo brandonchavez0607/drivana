@@ -28,9 +28,9 @@ export default function Navbar() {
   const esAdmin = rol === 'admin' || rol === 'superadmin'
 
   return (
-    <nav className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-black/40 backdrop-blur border-b border-white/10 text-white">
+    <nav className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-black border-b border-white/10 text-white">
       <Link href="/" className="text-2xl font-extrabold tracking-tight hover:opacity-80 transition">
-        Drivana
+        Roda<span className="text-brand">ya</span>
       </Link>
       <div className="flex items-center gap-6 text-sm">
         <Link href="/autos">Autos</Link>
